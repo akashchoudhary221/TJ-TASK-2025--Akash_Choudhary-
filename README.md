@@ -35,7 +35,6 @@ I set out to build a unique, space-themed Tic Tac Toe game. My process began wit
 
 ![Main Game UI](./Screenshot.jpg)
 
-(Add more screenshot lines here if you upload other images.)
 
 ## Deployment
 
