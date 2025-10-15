@@ -7,13 +7,13 @@ Akash Choudhary
 [Prompt.txt](./Prompt.txt)  
 (Create a fully deployable, aesthetic Tic Tac Toe game using only a single prompt...)
 
-## Approach
-
-I set out to build a unique, space-themed Tic Tac Toe game. My process began with a simple, functional board using straightforward HTML, CSS, and JavaScript. After getting the core logic working, I iteratively enhanced my prompt—adding visual elements like stars, nebula effects, animated planets, glassmorphism styling, and dynamic glowing accents. This approach ultimately led to a stylish, modern take on the classic game, all generated from a single, comprehensive AI prompt.
-
 **Credit:**  
 - I used **Claude AI** and **Perplexity AI** for summarizing and refining the final one-shot prompt for this project.
 - Code was tested and run on **Replit** for rapid iteration and debugging.
+
+## Approach
+
+I set out to build a unique, space-themed Tic Tac Toe game. My process began with a simple, functional board using straightforward HTML, CSS, and JavaScript. After getting the core logic working, I iteratively enhanced my prompt—adding visual elements like stars, nebula effects, animated planets, glassmorphism styling, and dynamic glowing accents. This approach ultimately led to a stylish, modern take on the classic game, all generated from a single, comprehensive AI prompt.
 
 ## Algorithm & Features
 
@@ -37,10 +37,6 @@ I set out to build a unique, space-themed Tic Tac Toe game. My process began wit
 
 This project is deployed in the same GitHub repository.  
 Just open `index.html` locally, or deploy the HTML file to Netlify, Vercel, or any static hosting platform.
-
-## Prompt File
-
-See the exact AI prompt used in [Prompt.txt](./Prompt.txt).
 
 ## Extra Notes
 
