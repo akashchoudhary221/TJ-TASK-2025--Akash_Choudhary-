@@ -7,6 +7,10 @@ Akash Choudhary
 [Prompt.txt](./Prompt.txt)  
 (Create a fully deployable, aesthetic Tic Tac Toe game using only a single prompt...)
 
+##Link
+ *[https://akashchoudhary221.github.io/TJ-TASK-2025--Akash_Choudhary-/]*
+
+
 **Credit:**  
 - I used **Claude AI** and **Perplexity AI** for summarizing and refining the final one-shot prompt for this project.
 - Code was tested and run on **Replit** for rapid iteration and debugging.
@@ -40,7 +44,7 @@ Just open `index.html` locally, or deploy the HTML file to Netlify, Vercel, or a
 
 ## Extra Notes
 
-I enjoyed the “vibe coding” style—being able to focus on creativity rather than deep technical complexity. I also experimented with a fashion landing page using similar AI-driven techniques (link: *[https://akashchoudhary221.github.io/Fashion-technojam/]*). This project involved several rounds of trial and error and debugging within the one-prompt constraint. I even tried some more elaborate designs, but those were beyond the single-prompt challenge.
+I enjoyed the “vibe coding” style—being able to focus on creativity rather than deep technical complexity. I also experimented with a fashion landing page using similar AI-driven techniques (link: *[https://akashchoudhary221.github.io/Fashion-technojam/]*)(this was also created with a single prompt). This project involved several rounds of trial and error and debugging within the one-prompt constraint. I even tried some more elaborate designs, but those were beyond the single-prompt challenge.
 
 ---
 
