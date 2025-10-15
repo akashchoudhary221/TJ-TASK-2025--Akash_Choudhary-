@@ -39,7 +39,6 @@ I set out to build a unique, space-themed Tic Tac Toe game. My process began wit
 ## Deployment
 
 This project is deployed in the same GitHub repository.  
-Just open `index.html` locally, or deploy the HTML file to Netlify, Vercel, or any static hosting platform.
 
 ## Extra Notes
 
