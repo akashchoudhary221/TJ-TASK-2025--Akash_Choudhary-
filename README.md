@@ -40,7 +40,7 @@ Just open `index.html` locally, or deploy the HTML file to Netlify, Vercel, or a
 
 ## Extra Notes
 
-I enjoyed the “vibe coding” style—being able to focus on creativity rather than deep technical complexity. I also experimented with a fashion landing page using similar AI-driven techniques (link: *[your landing page URL here]*). This project involved several rounds of trial and error and debugging within the one-prompt constraint. I even tried some more elaborate designs, but those were beyond the single-prompt challenge.
+I enjoyed the “vibe coding” style—being able to focus on creativity rather than deep technical complexity. I also experimented with a fashion landing page using similar AI-driven techniques (link: *[https://akashchoudhary221.github.io/Fashion-technojam/]*). This project involved several rounds of trial and error and debugging within the one-prompt constraint. I even tried some more elaborate designs, but those were beyond the single-prompt challenge.
 
 ---
 
