@@ -1,0 +1,15 @@
+Create a fully deployable, aesthetic Tic Tac Toe game using only a single prompt with the following requirements:
+
+- Vanilla HTML, CSS, and JS — all code delivered in a single file, no frameworks or external dependencies.
+- Space-themed styling with stars, nebula, and animated planets as decorative backgrounds.
+- The game container uses a glassmorphism effect (blurred, semi-transparent, glowing border).
+- Title/header “X&O IN SPACE” has glowing, animated effects.
+- 3-column scoreboard showing Player X, Player O, and Draws, with color-coded animated numbers.
+- 3x3 grid styled as clickable buttons, displaying a star shape for X and a planet shape for O (both with visual glow/animations).
+- Turn indication for X and O, with color and status updates for win/loss/draw.
+- Winning row highlights with animation when game ends.
+- Replay button resets the board, and Reset All button resets scores plus board.
+- Prevent moves on filled squares and after game ends.
+- All code must be copy-pasteable as one .html file and ready for deployment on Netlify, Vercel, etc.
+- Include concise comments at the top for setup/use.
+- Output the code only—no explanations or extra text.
