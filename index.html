@@ -1,0 +1,597 @@
+<!--
+  X&O IN SPACE - Space-Themed Tic Tac Toe Game
+  
+  SETUP: No setup required - this is a single standalone HTML file
+  
+  USAGE:
+  1. Open this file directly in any modern web browser (Chrome, Firefox, Safari, Edge)
+  2. Or deploy to any static hosting service (Netlify, Vercel, GitHub Pages, etc.)
+  3. Simply drag-and-drop this file or serve it with any HTTP server
+  
+  GAMEPLAY:
+  - Click any empty square to place your symbol (X = blue star, O = pink planet)
+  - First player to get 3 in a row wins
+  - Use "Replay" to start a new game (keeps scores)
+  - Use "Reset All" to clear scores and start fresh
+  
+  No external dependencies, frameworks, or libraries required.
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>X&O IN SPACE - Tic Tac Toe</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0a0e27;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 3s infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        .nebula {
+            position: fixed;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(ellipse at 30% 50%, rgba(138, 43, 226, 0.15) 0%, transparent 50%),
+                        radial-gradient(ellipse at 70% 50%, rgba(0, 100, 255, 0.15) 0%, transparent 50%),
+                        radial-gradient(ellipse at 50% 80%, rgba(255, 20, 147, 0.1) 0%, transparent 50%);
+            animation: nebula-drift 20s infinite alternate;
+            pointer-events: none;
+        }
+
+        @keyframes nebula-drift {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            100% { transform: translate(5%, 5%) rotate(10deg); }
+        }
+
+        .planet {
+            position: fixed;
+            border-radius: 50%;
+            pointer-events: none;
+            opacity: 0.4;
+        }
+
+        .planet1 {
+            width: 150px;
+            height: 150px;
+            background: radial-gradient(circle at 30% 30%, #ff6b9d, #8b5cf6);
+            top: 10%;
+            right: 10%;
+            animation: float 15s infinite ease-in-out;
+            box-shadow: 0 0 60px rgba(139, 92, 246, 0.6);
+        }
+
+        .planet2 {
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle at 30% 30%, #60a5fa, #3b82f6);
+            bottom: 15%;
+            left: 5%;
+            animation: float 12s infinite ease-in-out reverse;
+            box-shadow: 0 0 40px rgba(59, 130, 246, 0.6);
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-30px); }
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border-radius: 30px;
+            border: 2px solid rgba(255, 255, 255, 0.18);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37),
+                        0 0 80px rgba(138, 43, 226, 0.3),
+                        inset 0 0 60px rgba(255, 255, 255, 0.05);
+            padding: 40px;
+            max-width: 500px;
+            width: 90%;
+        }
+
+        .title {
+            text-align: center;
+            font-size: 3rem;
+            font-weight: bold;
+            color: #fff;
+            text-shadow: 0 0 10px rgba(138, 43, 226, 0.8),
+                         0 0 20px rgba(138, 43, 226, 0.6),
+                         0 0 30px rgba(138, 43, 226, 0.4);
+            margin-bottom: 30px;
+            animation: title-glow 2s infinite alternate;
+            letter-spacing: 3px;
+        }
+
+        @keyframes title-glow {
+            0% {
+                text-shadow: 0 0 10px rgba(138, 43, 226, 0.8),
+                             0 0 20px rgba(138, 43, 226, 0.6),
+                             0 0 30px rgba(138, 43, 226, 0.4);
+            }
+            100% {
+                text-shadow: 0 0 20px rgba(138, 43, 226, 1),
+                             0 0 30px rgba(138, 43, 226, 0.8),
+                             0 0 40px rgba(138, 43, 226, 0.6),
+                             0 0 50px rgba(138, 43, 226, 0.4);
+            }
+        }
+
+        .scoreboard {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .score-item {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 15px;
+            padding: 15px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .score-label {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .score-value {
+            font-size: 2rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .score-x {
+            color: #60a5fa;
+            text-shadow: 0 0 10px rgba(96, 165, 250, 0.6);
+        }
+
+        .score-o {
+            color: #f472b6;
+            text-shadow: 0 0 10px rgba(244, 114, 182, 0.6);
+        }
+
+        .score-draw {
+            color: #a78bfa;
+            text-shadow: 0 0 10px rgba(167, 139, 250, 0.6);
+        }
+
+        .score-value.animate {
+            transform: scale(1.3);
+            animation: score-pulse 0.5s ease;
+        }
+
+        @keyframes score-pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.3); }
+        }
+
+        .turn-indicator {
+            text-align: center;
+            font-size: 1.2rem;
+            color: #fff;
+            margin-bottom: 20px;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            font-weight: 500;
+        }
+
+        .turn-x {
+            color: #60a5fa;
+            text-shadow: 0 0 10px rgba(96, 165, 250, 0.8);
+        }
+
+        .turn-o {
+            color: #f472b6;
+            text-shadow: 0 0 10px rgba(244, 114, 182, 0.8);
+        }
+
+        .board {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+
+        .cell {
+            aspect-ratio: 1;
+            background: rgba(255, 255, 255, 0.08);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cell:hover:not(.filled) {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(138, 43, 226, 0.5);
+            transform: scale(1.05);
+        }
+
+        .cell.filled {
+            cursor: not-allowed;
+        }
+
+        .cell.winner {
+            animation: winner-glow 0.6s ease infinite;
+            border-color: #fbbf24;
+        }
+
+        @keyframes winner-glow {
+            0%, 100% {
+                background: rgba(251, 191, 36, 0.2);
+                box-shadow: 0 0 20px rgba(251, 191, 36, 0.6);
+            }
+            50% {
+                background: rgba(251, 191, 36, 0.4);
+                box-shadow: 0 0 30px rgba(251, 191, 36, 0.8);
+            }
+        }
+
+        .star-symbol {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 60px;
+            color: #60a5fa;
+            filter: drop-shadow(0 0 15px rgba(96, 165, 250, 0.8));
+            animation: symbol-appear 0.4s ease;
+        }
+
+        .star-symbol::before {
+            content: "★";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 60px;
+        }
+
+        .planet-symbol {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, #f472b6, #ec4899);
+            filter: drop-shadow(0 0 15px rgba(244, 114, 182, 0.8));
+            animation: symbol-appear 0.4s ease, planet-rotate 10s infinite linear;
+        }
+
+        .planet-symbol::before {
+            content: "";
+            position: absolute;
+            top: 20%;
+            left: 20%;
+            width: 15px;
+            height: 15px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            filter: blur(2px);
+        }
+
+        .planet-symbol::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: -30%;
+            width: 110%;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, rgba(244, 114, 182, 0.6), transparent);
+            border-radius: 50%;
+            transform: translateY(-50%) rotateX(75deg);
+        }
+
+        @keyframes symbol-appear {
+            0% {
+                transform: scale(0) rotate(-180deg);
+                opacity: 0;
+            }
+            100% {
+                transform: scale(1) rotate(0deg);
+                opacity: 1;
+            }
+        }
+
+        @keyframes planet-rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        button {
+            padding: 12px 30px;
+            background: rgba(138, 43, 226, 0.3);
+            border: 2px solid rgba(138, 43, 226, 0.5);
+            border-radius: 12px;
+            color: #fff;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        button:hover {
+            background: rgba(138, 43, 226, 0.5);
+            border-color: rgba(138, 43, 226, 0.8);
+            box-shadow: 0 0 20px rgba(138, 43, 226, 0.6);
+            transform: translateY(-2px);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        @media (max-width: 480px) {
+            .title {
+                font-size: 2rem;
+            }
+
+            .container {
+                padding: 25px;
+            }
+
+            .cell {
+                font-size: 2rem;
+            }
+
+            .star-symbol::before {
+                font-size: 40px;
+            }
+
+            .planet-symbol {
+                width: 35px;
+                height: 35px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="stars"></div>
+    <div class="nebula"></div>
+    <div class="planet planet1"></div>
+    <div class="planet planet2"></div>
+
+    <div class="container">
+        <h1 class="title">X&O IN SPACE</h1>
+        
+        <div class="scoreboard">
+            <div class="score-item">
+                <div class="score-label">Player X</div>
+                <div class="score-value score-x" id="score-x">0</div>
+            </div>
+            <div class="score-item">
+                <div class="score-label">Draws</div>
+                <div class="score-value score-draw" id="score-draw">0</div>
+            </div>
+            <div class="score-item">
+                <div class="score-label">Player O</div>
+                <div class="score-value score-o" id="score-o">0</div>
+            </div>
+        </div>
+
+        <div class="turn-indicator" id="turn-indicator">
+            <span class="turn-x">Player X's Turn</span>
+        </div>
+
+        <div class="board" id="board"></div>
+
+        <div class="buttons">
+            <button id="replay-btn">Replay</button>
+            <button id="reset-all-btn">Reset All</button>
+        </div>
+    </div>
+
+    <script>
+        const board = document.getElementById('board');
+        const turnIndicator = document.getElementById('turn-indicator');
+        const scoreXEl = document.getElementById('score-x');
+        const scoreOEl = document.getElementById('score-o');
+        const scoreDrawEl = document.getElementById('score-draw');
+        const replayBtn = document.getElementById('replay-btn');
+        const resetAllBtn = document.getElementById('reset-all-btn');
+
+        let currentPlayer = 'X';
+        let gameBoard = ['', '', '', '', '', '', '', '', ''];
+        let gameActive = true;
+        let scores = { X: 0, O: 0, draw: 0 };
+
+        const winPatterns = [
+            [0, 1, 2], [3, 4, 5], [6, 7, 8],
+            [0, 3, 6], [1, 4, 7], [2, 5, 8],
+            [0, 4, 8], [2, 4, 6]
+        ];
+
+        function createStars() {
+            const starsContainer = document.querySelector('.stars');
+            for (let i = 0; i < 100; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.width = Math.random() * 3 + 'px';
+                star.style.height = star.style.width;
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.animationDelay = Math.random() * 3 + 's';
+                starsContainer.appendChild(star);
+            }
+        }
+
+        function createBoard() {
+            board.innerHTML = '';
+            for (let i = 0; i < 9; i++) {
+                const cell = document.createElement('div');
+                cell.className = 'cell';
+                cell.dataset.index = i;
+                cell.addEventListener('click', handleCellClick);
+                board.appendChild(cell);
+            }
+        }
+
+        function handleCellClick(e) {
+            const cell = e.target.closest('.cell');
+            const index = parseInt(cell.dataset.index);
+
+            if (!gameActive || gameBoard[index] !== '') return;
+
+            gameBoard[index] = currentPlayer;
+            cell.classList.add('filled');
+
+            if (currentPlayer === 'X') {
+                const star = document.createElement('div');
+                star.className = 'star-symbol';
+                cell.appendChild(star);
+            } else {
+                const planet = document.createElement('div');
+                planet.className = 'planet-symbol';
+                cell.appendChild(planet);
+            }
+
+            if (checkWinner()) {
+                gameActive = false;
+                scores[currentPlayer]++;
+                updateScoreboard(currentPlayer);
+                highlightWinner();
+                updateTurnIndicator(`Player ${currentPlayer} Wins! 🎉`);
+            } else if (gameBoard.every(cell => cell !== '')) {
+                gameActive = false;
+                scores.draw++;
+                updateScoreboard('draw');
+                updateTurnIndicator("It's a Draw!");
+            } else {
+                currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+                updateTurnIndicator();
+            }
+        }
+
+        function checkWinner() {
+            return winPatterns.some(pattern => {
+                const [a, b, c] = pattern;
+                return gameBoard[a] !== '' && 
+                       gameBoard[a] === gameBoard[b] && 
+                       gameBoard[a] === gameBoard[c];
+            });
+        }
+
+        function highlightWinner() {
+            winPatterns.forEach(pattern => {
+                const [a, b, c] = pattern;
+                if (gameBoard[a] !== '' && 
+                    gameBoard[a] === gameBoard[b] && 
+                    gameBoard[a] === gameBoard[c]) {
+                    const cells = board.children;
+                    cells[a].classList.add('winner');
+                    cells[b].classList.add('winner');
+                    cells[c].classList.add('winner');
+                }
+            });
+        }
+
+        function updateTurnIndicator(message) {
+            if (message) {
+                turnIndicator.innerHTML = message;
+                return;
+            }
+
+            if (currentPlayer === 'X') {
+                turnIndicator.innerHTML = '<span class="turn-x">Player X\'s Turn</span>';
+            } else {
+                turnIndicator.innerHTML = '<span class="turn-o">Player O\'s Turn</span>';
+            }
+        }
+
+        function updateScoreboard(winner) {
+            let element;
+            if (winner === 'X') {
+                element = scoreXEl;
+                element.textContent = scores.X;
+            } else if (winner === 'O') {
+                element = scoreOEl;
+                element.textContent = scores.O;
+            } else {
+                element = scoreDrawEl;
+                element.textContent = scores.draw;
+            }
+
+            element.classList.add('animate');
+            setTimeout(() => element.classList.remove('animate'), 500);
+        }
+
+        function resetBoard() {
+            gameBoard = ['', '', '', '', '', '', '', '', ''];
+            currentPlayer = 'X';
+            gameActive = true;
+            createBoard();
+            updateTurnIndicator();
+        }
+
+        function resetAll() {
+            scores = { X: 0, O: 0, draw: 0 };
+            scoreXEl.textContent = '0';
+            scoreOEl.textContent = '0';
+            scoreDrawEl.textContent = '0';
+            resetBoard();
+        }
+
+        replayBtn.addEventListener('click', resetBoard);
+        resetAllBtn.addEventListener('click', resetAll);
+
+        createStars();
+        createBoard();
+    </script>
+</body>
+</html>
