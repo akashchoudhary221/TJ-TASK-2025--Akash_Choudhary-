@@ -33,7 +33,7 @@ I set out to build a unique, space-themed Tic Tac Toe game. My process began wit
 
 ## Screenshots
 
-![Main Game UI](./Screenshot (22).png)
+![Main Game UI](./Screenshot.jpg)
 
 (Add more screenshot lines here if you upload other images.)
 
